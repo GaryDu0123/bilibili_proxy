@@ -1,4 +1,3 @@
-from socket import timeout
 import httpx
 from fastapi import FastAPI
 from app.bilibili.search import bvid_to_music
