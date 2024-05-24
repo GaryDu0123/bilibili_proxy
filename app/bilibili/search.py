@@ -4,10 +4,13 @@ import aiohttp
 BILIBILI_VIDEO_INFO_API = "http://api.bilibili.com/x/web-interface/view"
 BILIBILI_AUDIO_SOURCE_API = "https://api.bilibili.com/x/player/playurl"
 
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.58"
+}
 
 async def fetch_cid_by_BVid(BVid: str):
     url = f"{BILIBILI_VIDEO_INFO_API}?bvid={BVid}"
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(headers=headers) as session:
         async with session.get(url) as r:
             resp_json = await r.json()
             status = resp_json.get("code", 1)
@@ -26,7 +29,7 @@ async def fetch_cid_by_BVid(BVid: str):
 async def fetch_audio_source_by_BVid_and_cid(BVid: str, cid: int):
     url = f"{BILIBILI_AUDIO_SOURCE_API}?bvid={BVid}&cid={cid}&qn=16&fnval=80"
 
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(headers=headers) as session:
         async with session.get(url) as r:
             resp_json = await r.json()
             status = resp_json.get("code", 1)
